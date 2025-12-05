@@ -32,13 +32,8 @@
   font-size: 5rem;
   font-weight: 900;
   margin-bottom: 1rem;
-  background: linear-gradient(135deg, #00d4ff 0%, #8b5cf6 50%, #ec4899 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #ffffff;
   line-height: 1.1;
-  background-size: 200% auto;
-  animation: gradient 3s ease infinite;
 }
 
 @keyframes gradient {
@@ -68,18 +63,14 @@
 
 .description {
   font-size: 1.15rem;
-  color: var(--text-secondary);
+  color: #ffffff;
   margin-bottom: 3rem;
   line-height: 1.9;
 }
 
 .description strong {
-  color: var(--text-primary);
+  color: #ffffff;
   font-weight: 600;
-  background: linear-gradient(135deg, #00d4ff, #8b5cf6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 
 .contact-info {
