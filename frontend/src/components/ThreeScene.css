@@ -1,0 +1,17 @@
+.three-scene {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100vh;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+@media (max-width: 768px) {
+  .three-scene {
+    display: none;
+  }
+}
+
