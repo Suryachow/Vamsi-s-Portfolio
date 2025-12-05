@@ -8,15 +8,21 @@ const ParticleBackground = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      console.error('Canvas ref not available');
+      console.error('[ParticleBackground] Canvas ref not available');
       return;
     }
 
+    // Force dimensions
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
     const ctx = canvas.getContext('2d');
     if (!ctx) {
-      console.error('Failed to get canvas context');
+      console.error('[ParticleBackground] Failed to get canvas context');
       return;
     }
+
+    console.log('[ParticleBackground] Canvas initialized:', canvas.width, 'x', canvas.height);
 
     let animationFrameId;
     let particles = [];
@@ -24,22 +30,8 @@ const ParticleBackground = () => {
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      console.log('Canvas resized to:', canvas.width, 'x', canvas.height);
-      
-      // Reinitialize particles on resize
-      particles = [];
-      for (let i = 0; i < 100; i++) {
-        particles.push(new Particle());
-      }
+      console.log('[ParticleBackground] Canvas resized to:', canvas.width, 'x', canvas.height);
     };
-
-    // Ensure canvas is sized before animation starts
-    setTimeout(() => {
-      resizeCanvas();
-      console.log('Particle background initialized');
-    }, 0);
-
-    window.addEventListener('resize', resizeCanvas);
 
     const handleMouseMove = (e) => {
       mouseRef.current.x = e.clientX;
@@ -51,6 +43,7 @@ const ParticleBackground = () => {
       mouseRef.current.y = null;
     };
 
+    window.addEventListener('resize', resizeCanvas);
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseleave', handleMouseLeave);
 
@@ -59,9 +52,9 @@ const ParticleBackground = () => {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
-        this.speedX = Math.random() * 0.5 - 0.25;
-        this.speedY = Math.random() * 0.5 - 0.25;
-        this.opacity = Math.random() * 0.5 + 0.2;
+        this.speedX = (Math.random() - 0.5) * 1;
+        this.speedY = (Math.random() - 0.5) * 1;
+        this.opacity = Math.random() * 0.5 + 0.3;
       }
 
       update() {
@@ -98,12 +91,16 @@ const ParticleBackground = () => {
     }
 
     // Create particles
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 80; i++) {
       particles.push(new Particle());
     }
 
+    console.log('[ParticleBackground] Created', particles.length, 'particles');
+
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // Clear with dark background
+      ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw connections
       for (let i = 0; i < particles.length; i++) {
@@ -112,8 +109,8 @@ const ParticleBackground = () => {
           const dy = particles[i].y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.2 * (1 - distance / 150)})`;
+          if (distance < 120) {
+            ctx.strokeStyle = `rgba(0, 212, 255, ${0.3 * (1 - distance / 120)})`;
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
@@ -133,12 +130,14 @@ const ParticleBackground = () => {
     };
 
     animate();
+    console.log('[ParticleBackground] Animation started');
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
+      console.log('[ParticleBackground] Cleanup complete');
     };
   }, []);
 
