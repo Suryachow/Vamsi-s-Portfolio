@@ -51,10 +51,10 @@ const ParticleBackground = () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2.5 + 1.5;
-        this.speedX = (Math.random() - 0.5) * 1;
-        this.speedY = (Math.random() - 0.5) * 1;
-        this.opacity = Math.random() * 0.6 + 0.4;
+        this.size = Math.random() * 1.5 + 0.8;
+        this.speedX = (Math.random() - 0.5) * 0.5;
+        this.speedY = (Math.random() - 0.5) * 0.5;
+        this.opacity = Math.random() * 0.3 + 0.15;
       }
 
       update() {
@@ -98,8 +98,8 @@ const ParticleBackground = () => {
     console.log('[ParticleBackground] Created', particles.length, 'particles');
 
     const animate = () => {
-      // Clear with dark background
-      ctx.fillStyle = 'rgba(10, 14, 39, 0.1)';
+      // Clear with very light background
+      ctx.fillStyle = 'rgba(10, 14, 39, 0.02)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       // Draw connections
@@ -110,8 +110,8 @@ const ParticleBackground = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.5 * (1 - distance / 120)})`;
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = `rgba(0, 212, 255, ${0.15 * (1 - distance / 120)})`;
+            ctx.lineWidth = 0.8;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
