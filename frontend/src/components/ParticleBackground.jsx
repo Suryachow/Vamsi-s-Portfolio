@@ -51,10 +51,10 @@ const ParticleBackground = () => {
       constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
+        this.size = Math.random() * 2.5 + 1.5;
         this.speedX = (Math.random() - 0.5) * 1;
         this.speedY = (Math.random() - 0.5) * 1;
-        this.opacity = Math.random() * 0.5 + 0.3;
+        this.opacity = Math.random() * 0.6 + 0.4;
       }
 
       update() {
@@ -110,8 +110,8 @@ const ParticleBackground = () => {
           const distance = Math.sqrt(dx * dx + dy * dy);
 
           if (distance < 120) {
-            ctx.strokeStyle = `rgba(0, 212, 255, ${0.3 * (1 - distance / 120)})`;
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = `rgba(0, 212, 255, ${0.5 * (1 - distance / 120)})`;
+            ctx.lineWidth = 1.5;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -141,7 +141,11 @@ const ParticleBackground = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="particle-background" />;
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1, pointerEvents: 'none' }}>
+      <canvas ref={canvasRef} className="particle-background" style={{ display: 'block', width: '100%', height: '100%' }} />
+    </div>
+  );
 };
 
 export default ParticleBackground;
