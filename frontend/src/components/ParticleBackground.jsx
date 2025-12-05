@@ -7,7 +7,10 @@ const ParticleBackground = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      console.error('Canvas ref not available');
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
     if (!ctx) {
@@ -21,15 +24,21 @@ const ParticleBackground = () => {
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      // Redraw particles after resize
-      if (particles.length === 0) {
-        for (let i = 0; i < 100; i++) {
-          particles.push(new Particle());
-        }
+      console.log('Canvas resized to:', canvas.width, 'x', canvas.height);
+      
+      // Reinitialize particles on resize
+      particles = [];
+      for (let i = 0; i < 100; i++) {
+        particles.push(new Particle());
       }
     };
 
-    resizeCanvas();
+    // Ensure canvas is sized before animation starts
+    setTimeout(() => {
+      resizeCanvas();
+      console.log('Particle background initialized');
+    }, 0);
+
     window.addEventListener('resize', resizeCanvas);
 
     const handleMouseMove = (e) => {
