@@ -10,12 +10,23 @@ const ParticleBackground = () => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      console.error('Failed to get canvas context');
+      return;
+    }
+
     let animationFrameId;
     let particles = [];
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      // Redraw particles after resize
+      if (particles.length === 0) {
+        for (let i = 0; i < 100; i++) {
+          particles.push(new Particle());
+        }
+      }
     };
 
     resizeCanvas();
